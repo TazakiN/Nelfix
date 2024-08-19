@@ -1,0 +1,13 @@
+<div class="flex justify-center mt-8">
+  {{#if pagination.prev}}
+    <a href="?page={{pagination.prev}}" class="px-4 py-2 mx-1 bg-blue-500 text-white rounded hover:bg-blue-600">Previous</a>
+  {{/if}}
+
+  {{#each pagination.pages}}
+    <a href="?page={{this}}" class="px-4 py-2 mx-1 {{#if (eq this ../pagination.current)}}bg-blue-600{{else}}bg-blue-500{{/if}} text-white rounded hover:bg-blue-600">{{this}}</a>
+  {{/each}}
+
+  {{#if pagination.next}}
+    <a href="?page={{pagination.next}}" class="px-4 py-2 mx-1 bg-blue-500 text-white rounded hover:bg-blue-600">Next</a>
+  {{/if}}
+</div>

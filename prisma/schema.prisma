@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  username        String    @unique
+  email           String    @unique
+  hashed_password String
+  balance         Int       @default(0)
+  OwnFilm         OwnFilm[]
+}
+
+model OwnFilm {
+  userId String
+  filmId String
+  film   Film   @relation(fields: [filmId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, filmId])
+}
+
+model Film {
+  id              String      @id @default(cuid())
+  title           String
+  description     String
+  director        String
+  release_year    Int
+  duration        Int
+  video_url       String
+  cover_image_url String
+  created_at      DateTime    @default(now())
+  updated_at      DateTime    @updatedAt
+  price           Int
+  FilmGenre       FilmGenre[]
+  OwnFilm         OwnFilm[]
+}
+
+model FilmGenre {
+  filmId  String
+  genreId String
+  film    Film   @relation(fields: [filmId], references: [id])
+  genre   Genre  @relation(fields: [genreId], references: [id])
+
+  @@id([filmId, genreId])
+}
+
+model Genre {
+  id        String      @id @default(cuid())
+  name      String
+  FilmGenre FilmGenre[]
+}

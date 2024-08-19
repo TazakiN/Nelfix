@@ -1,0 +1,23 @@
+.film-card:hover .details-button {
+  opacity: 1;
+}
+.details-button {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.fade-text {
+  position: relative;
+  max-height: 120px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  color: #d1d5db; /* text-gray-300 */
+}
+.fade-text::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(transparent, #1f2937); /* bg-gray-800 */
+}

@@ -1,0 +1,76 @@
+{{#extend "main"}}
+
+  {{#content "head" mode="append"}}
+    <title>{{data.title}} | Nelfix</title>
+    <style>
+      body {
+        background-color: #000;
+        font-family: 'Inter', sans-serif;
+      }
+      .video-container {
+        position: relative;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      }
+      .video-container iframe,
+      .video-container video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+      }
+      .film-info {
+        margin-top: 20px;
+        color: #fff;
+        text-align: center;
+      }
+      .film-info h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+      .film-info p {
+        font-size: 1rem;
+        margin-bottom: 5px;
+      }
+      .genre-tags {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .genre-tags span {
+        background-color: #444;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+      }
+    </style>
+  {{/content}}
+
+  {{#content "body"}}
+  <div class="p-4 py-8 text-white">
+    <div class="video-container">
+      <video controls>
+        <source src="{{data.video_url}}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="film-info">
+      <h1>{{data.title}}</h1>
+      <p>{{data.description}}</p>
+      <p><strong>Directed by:</strong> {{data.director}}</p>
+      <p><strong>Released:</strong> {{data.release_year}}</p>
+      <p><strong>Duration:</strong> {{data.duration}} minutes</p>
+      <div class="genre-tags">
+        {{#each data.genre}}
+          <span>{{this}}</span>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  {{/content}}  
+
+{{/extend}}
