@@ -8,15 +8,15 @@
   "scripts": {
     "seed": "ts-node prisma/seed.ts",
     "prisma:dev:deploy": "prisma migrate deploy",
-    "db:dev:rm": "docker compose rm dev-db -s -f -v",
-    "db:dev:up": "docker compose up dev-db -d",
+    "db:dev:rm": "docker compose rm db -s -f -v",
+    "db:dev:up": "docker compose up db -d",
     "db:dev:restart": "yarn db:dev:rm && yarn db:dev:up && timeout /t 10 /nobreak && yarn prisma:dev:deploy && yarn seed",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -42,7 +42,7 @@
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
-    "tahap3-labpro": "file:."
+    "tahap3-labpro": "file:"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

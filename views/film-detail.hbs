@@ -2,7 +2,7 @@
 
   {{#content "head" mode="append"}}
     <title>{{data.title}} | Nelfix</title>
-    <script src="/js/handleWatch.js" defer></script>
+    <script src="/js/filmDetail.js" defer></script>
     <style>
       .gradient-bg {
         background: linear-gradient(to right, #4a5568, #2d3748);
@@ -28,7 +28,10 @@
               <span class="text-gray-300">Duration: {{data.duration}} minutes</span>
               <span class="text-orange-400 font-bold">Price: ${{data.price}}</span>
             </div>
-            <div class="mt-6 flex-grow flex items-end justify-end">
+            <div class="mt-6 flex-grow flex items-end justify-end gap-5">
+              <a onclick="handleBuy()" class="inline-block bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer">
+                Buy Film
+              </a>
               <a onclick="handleWatch()" class="inline-block bg-orange-500 text-white px-6 py-3 rounded-full hover:bg-orange-600 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer">
                 Watch Now
               </a>

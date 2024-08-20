@@ -420,4 +420,71 @@ export class FilmService {
       throw error;
     }
   }
+
+  async buyFilm(idUser: string, idFilm: string) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { id: idUser },
+        include: {
+          OwnFilm: true,
+        },
+      });
+
+      if (!user) {
+        throw new Error('User tidak ditemukan');
+      }
+
+      const film = await this.prisma.film.findUnique({
+        where: { id: idFilm },
+      });
+
+      if (!film) {
+        throw new Error('Film tidak ditemukan');
+      }
+
+      const userFilm = user.OwnFilm.find((f) => f.filmId === idFilm);
+
+      if (userFilm) {
+        throw new Error('Film sudah dibeli');
+      }
+
+      await this.prisma.user.update({
+        where: { id: idUser },
+        data: {
+          balance: {
+            decrement: film.price,
+          },
+          OwnFilm: {
+            create: {
+              filmId: idFilm,
+            },
+          },
+        },
+      });
+
+      return {
+        status: 'success',
+        message: 'Film berhasil dibeli',
+        data: {
+          id: film.id,
+          title: film.title,
+          description: film.description,
+          director: film.director,
+          release_year: film.release_year,
+          price: film.price,
+          duration: film.duration,
+          cover_image_url: film.cover_image_url,
+          video_url: film.video_url,
+          created_at: film.created_at.toISOString(),
+          updated_at: film.updated_at.toISOString(),
+        },
+      };
+    } catch (error) {
+      return {
+        status: 'error',
+        message: error.message,
+        data: null,
+      };
+    }
+  }
 }

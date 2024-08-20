@@ -9,10 +9,13 @@ import {
   Query,
   Render,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { idUserDTO, incBalanceDTO, UpdateUserDTO } from './dto';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
+import { UserGuard } from './guard';
+import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 
 @UseGuards(JwtGuard)
 @Controller('users') //
@@ -22,12 +25,6 @@ export class UsersController {
   @Get(':id')
   getUser(@Param() idUserDTO: idUserDTO) {
     return this.usersService.getUser(idUserDTO.id);
-  }
-
-  @Get('owned-films')
-  @Render('my-list')
-  getOwnedFilms() {
-    return { message: 'my-list' };
   }
 
   @Post(':id/balance')
@@ -47,6 +44,7 @@ export class UsersController {
     return this.usersService.searchUser(query);
   }
 
+  @UseGuards(UserGuard)
   @Get(':id/detail')
   @Render('account-detail')
   getAccountDetail(@Param() dto: idUserDTO) {

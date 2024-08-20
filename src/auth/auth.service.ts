@@ -55,7 +55,7 @@ export class AuthService {
       });
 
       const jwtToken = await this.signToken(dto.username, dto.username);
-
+      localStorage.setItem('token', jwtToken);
       return {
         status: 'success',
         message: 'berhasil mendaftar',

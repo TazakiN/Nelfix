@@ -62,6 +62,7 @@ export class BrowseSevice {
     const totalPages = Math.ceil(Number(total) / take);
 
     return {
+      currentPage: 'my-list',
       films: films.map((ownFilm) => ownFilm.film),
       pagination: {
         current: page,

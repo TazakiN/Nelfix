@@ -14,9 +14,11 @@ import {
 } from '@nestjs/common';
 import { FilmService } from './film.service';
 import { FilmDTO } from './dto';
-import { JwtGuard } from 'src/auth/guard/jwt.guard'; //
+import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { UserOwnFilmGuard } from './guard';
+import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 
 const multerOptions: MulterOptions = {
   limits: { fileSize: 50 * 1024 * 1024 },
@@ -72,12 +74,6 @@ export class FilmController {
       console.error('Error uploading files:', error.message);
       throw error;
     }
-  }
-
-  @Get('up')
-  @Render('uploadFilm')
-  upForm() {
-    return {};
   }
 
   @Get()
@@ -144,10 +140,17 @@ export class FilmController {
     return this.filmService.findByID(id);
   }
 
-  @UseGuards(JwtGuard)
+  @UseInterceptors(AuthInterceptor)
+  @UseGuards(UserOwnFilmGuard)
   @Get('watch/:id')
   @Render('watch')
   watch(@Param('id') id: string) {
     return this.filmService.findByID(id);
+  }
+
+  @UseGuards(JwtGuard)
+  @Post('buy/:idUser/:idFilm')
+  buyFilm(@Param('idUser') idUser: string, @Param('idFilm') idFilm: string) {
+    return this.filmService.buyFilm(idUser, idFilm);
   }
 }
