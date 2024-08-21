@@ -126,7 +126,7 @@ Program ini adalah hasil dari pengerjaan tahap 3 dari Seleksi Asisten LabPro 202
 
 #### Deployed Version
 
-You can access the deployed version of this program at [coming-fernande-seleksilapro-a16662b2.koyeb.app](coming-fernande-seleksilapro-a16662b2.koyeb.app)
+Anda dapat mengakses versi deployed dari program ini di [coming-fernande-seleksilapro-a16662b2.koyeb.app](coming-fernande-seleksilapro-a16662b2.koyeb.app)
 
 ## Design Pattern
 
@@ -191,6 +191,22 @@ You can access the deployed version of this program at [coming-fernande-seleksil
 | `GET`    | `/films/watch/:id`                      | Mengembalikan halaman menonton film dengan id tertentu.|
 | `POST`    | `/films/buy/:idUser/:idFilm`            | idUser Membeli sebuah film  tertentu.         |
 
+## BONUS
+
+### B02 - Deployment
+
+Program ini telah di-deploy menggunakan [Koyeb](https://www.koyeb.com/). Anda dapat mengakses program ini di [coming-fernande-seleksilapro-a16662b2.koyeb.app](coming-fernande-seleksilapro-a16662b2.koyeb.app)
+
+Database yang digunakan adalah PostgreSQL yang juga di-deploy menggunakan [Koyeb](https://www.koyeb.com/)
+
+### B06 - Responsive Layout
+
+Program ini menggunakan [TailwindCSS](https://tailwindcss.com/) untuk membuat layout yang responsive. Program ini dapat diakses di berbagai perangkat dengan ukuran layar yang berbeda.
+
+### B11 - Ember
+
+Program ini menggunakan Bucket untuk menyimpan cover image dan video dari film-film yang ada. Bucket yang digunakan adalah [R2 CloudFlare](https://developers.cloudflare.com/r2/)
+
 ## Author
 
-- 13522032 Tazkia Nizami
+- 13522032 - [Tazkia Nizami](https://github.com/TazakiN)
