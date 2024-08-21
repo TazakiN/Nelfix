@@ -9,13 +9,11 @@ import {
   Query,
   Render,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { idUserDTO, incBalanceDTO, UpdateUserDTO } from './dto';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { UserGuard } from './guard';
-import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 
 @UseGuards(JwtGuard)
 @Controller('users') //
@@ -29,8 +27,6 @@ export class UsersController {
 
   @Post(':id/balance')
   addBalance(@Body() incDTO: incBalanceDTO, @Param() idUserDTO: idUserDTO) {
-    console.log(incDTO.increment);
-    console.log(idUserDTO.id);
     return this.usersService.addBalance(idUserDTO.id, incDTO.increment);
   }
 
@@ -51,6 +47,7 @@ export class UsersController {
     return this.usersService.getUser(dto.id);
   }
 
+  @UseGuards(UserGuard)
   @Patch(':id')
   updateUser(
     @Param() idUserDTO: idUserDTO,

@@ -96,39 +96,9 @@ function handleAccountDetail() {
 
 function toMyListPage() {
   const userId = extractFromToken().sub;
-  if (userId) {
-    fetch(`/browse/${userId}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.text();
-        } else if (response.status === 401) {
-          alert('You must log in first.');
-          removeToken();
-          return (window.location.href = '/login');
-        } else if (response.status === 403) {
-          alert('You are not authorized to view this page.');
-          return (window.location.href = '/');
-        } else {
-          alert('There was a problem loading the user details.');
-          removeToken();
-          return (window.location.href = '/login');
-        }
-      })
-      .then((html) => {
-        document.open();
-        document.write(html);
-        document.close;
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert('There was a problem loading the user details.');
-      });
-  } else {
-    alert('Kamu harus login terlebih dahulu');
+  if (!userId) {
+    alert('Anda harus login terlebih dahulu.');
+    return (window.location.href = '/login');
   }
+  window.location.href = `/browse/${userId}`;
 }

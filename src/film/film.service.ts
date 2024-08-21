@@ -171,34 +171,53 @@ export class FilmService {
     videoFile?: Express.Multer.File,
     coverImage?: Express.Multer.File,
   ) {
-    // Mulai transaksi untuk memastikan konsistensi
-    return this.prisma.$transaction(async (prisma) => {
-      const existingFilm = await prisma.film.findFirst({
-        where: { id },
-        include: {
-          FilmGenre: true,
-        },
-      });
+    // Temukan film yang ada
+    const existingFilm = await this.prisma.film.findFirst({
+      where: { id },
+      include: { FilmGenre: true },
+    });
 
-      if (!existingFilm) {
-        throw new Error('Film tidak ditemukan');
-      }
+    if (!existingFilm) {
+      throw new Error('Film tidak ditemukan');
+    }
 
-      // Update cover image jika diperlukan
-      if (coverImage) {
-        if (existingFilm.cover_image_url) {
-          await this.bucketService.deleteObject(
-            'cover-images',
-            existingFilm.cover_image_url,
-          );
-        }
-        const newCoverImageName = `cover-images/${coverImage.originalname}`;
-        const newCoverImageUrl = await this.bucketService.putObject(
-          newCoverImageName,
-          coverImage.buffer,
-          coverImage.mimetype,
+    // Handle cover image update
+    let newCoverImageUrl: string | undefined;
+    if (coverImage) {
+      if (existingFilm.cover_image_url) {
+        await this.bucketService.deleteObject(
+          'cover-images',
+          existingFilm.cover_image_url.split('/').pop(),
         );
+      }
+      const newCoverImageName = `cover-images/${coverImage.originalname}`;
+      newCoverImageUrl = await this.bucketService.putObject(
+        newCoverImageName,
+        coverImage.buffer,
+        coverImage.mimetype,
+      );
+    }
 
+    // Handle video file update
+    let newVideoUrl: string | undefined;
+    if (videoFile) {
+      if (existingFilm.video_url) {
+        await this.bucketService.deleteObject(
+          'videos',
+          existingFilm.video_url.split('/').pop(),
+        );
+      }
+      const newVideoFileName = `videos/${videoFile.originalname}`;
+      newVideoUrl = await this.bucketService.putObject(
+        newVideoFileName,
+        videoFile.buffer,
+        videoFile.mimetype,
+      );
+    }
+
+    // Transaksi database
+    return this.prisma.$transaction(async (prisma) => {
+      if (newCoverImageUrl) {
         await prisma.film.update({
           where: { id },
           data: {
@@ -210,76 +229,42 @@ export class FilmService {
         });
       }
 
-      // Update video file jika diperlukan
-      if (videoFile) {
-        if (existingFilm.video_url) {
-          await this.bucketService.deleteObject(
-            'videos',
-            existingFilm.video_url,
-          );
-        }
-        const newVideoFileName = `videos/${videoFile.originalname}`;
-        const newVideoUrl = await this.bucketService.putObject(
-          newVideoFileName,
-          videoFile.buffer,
-          videoFile.mimetype,
-        );
-
+      if (newVideoUrl) {
         await prisma.film.update({
           where: { id },
           data: {
-            video_url: newVideoUrl,
-            duration: data.duration,
+            video_url:
+              this.configService.get('BASE_URL') + '/bucket/' + newVideoUrl,
           },
         });
       }
 
-      // Update genres
-      const genresArray: string[] = data.genre;
-
-      // Ambil genre yang ada
-      const existingGenres = existingFilm.FilmGenre.map((fg) => fg.genreId);
-
-      // Cari genre baru yang perlu ditambahkan
+      const genreArray = Array.isArray(data.genre) ? data.genre : [];
       const newGenres = await Promise.all(
-        genresArray.map(async (genreName) => {
-          let genre = await prisma.genre.findFirst({
-            where: { name: genreName },
+        genreArray.map(async (genreName) => {
+          let genre = await prisma.genre.findUnique({
+            where: { name: genreName, id: existingFilm.id },
           });
-
           if (!genre) {
-            genre = await prisma.genre.create({
-              data: { name: genreName },
-            });
+            genre = await prisma.genre.create({ data: { name: genreName } });
           }
           return genre;
         }),
       );
 
       const newGenreIds = newGenres.map((genre) => genre.id);
-
-      // Hapus genre yang tidak ada di DTO baru
       await prisma.filmGenre.deleteMany({
-        where: {
-          filmId: id,
-          genreId: { notIn: newGenreIds },
-        },
+        where: { filmId: id, genreId: { notIn: newGenreIds } },
       });
 
-      // Tambahkan genre baru
-      const genresToAdd = newGenreIds.filter(
-        (id) => !existingGenres.includes(id),
-      );
-
       await prisma.filmGenre.createMany({
-        data: genresToAdd.map((genreId) => ({
+        data: newGenreIds.map((genreId) => ({
           filmId: id,
-          genreId: genreId,
+          genreId,
         })),
       });
 
-      // Update data film
-      const updatedFilm = await prisma.film.update({
+      return prisma.film.update({
         where: { id },
         data: {
           title: data.title,
@@ -288,33 +273,8 @@ export class FilmService {
           release_year: data.release_year,
           price: data.price,
         },
-        include: {
-          FilmGenre: {
-            include: {
-              genre: true,
-            },
-          },
-        },
+        include: { FilmGenre: { include: { genre: true } } },
       });
-
-      return {
-        status: 'success',
-        message: 'Film Berhasil Diupdate',
-        data: {
-          id: updatedFilm.id,
-          title: updatedFilm.title,
-          description: updatedFilm.description,
-          director: updatedFilm.director,
-          release_year: updatedFilm.release_year,
-          genre: updatedFilm.FilmGenre.map((fg) => fg.genre.name),
-          price: updatedFilm.price,
-          duration: updatedFilm.duration,
-          cover_image_url: updatedFilm.cover_image_url,
-          video_url: updatedFilm.video_url,
-          created_at: updatedFilm.created_at.toISOString(),
-          updated_at: updatedFilm.updated_at.toISOString(),
-        },
-      };
     });
   }
 

@@ -18,7 +18,6 @@ import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UserOwnFilmGuard } from './guard';
-import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 
 const multerOptions: MulterOptions = {
   limits: { fileSize: 50 * 1024 * 1024 },
@@ -105,6 +104,7 @@ export class FilmController {
       multerOptions,
     ),
   )
+  
   update(
     @Param('id') id: string,
     @Body() dto: FilmDTO,
@@ -140,7 +140,6 @@ export class FilmController {
     return this.filmService.findByID(id);
   }
 
-  @UseInterceptors(AuthInterceptor)
   @UseGuards(UserOwnFilmGuard)
   @Get('watch/:id')
   @Render('watch')

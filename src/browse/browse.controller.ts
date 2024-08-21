@@ -1,13 +1,5 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Query,
-  Render,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Param, Query, Render } from '@nestjs/common';
 import { BrowseSevice } from './browse.service';
-import { JwtGuard } from 'src/auth/guard';
 
 @Controller('browse')
 export class BrowseController {
@@ -19,7 +11,6 @@ export class BrowseController {
     return this.browseService.browseFilms((page = 1), query);
   }
 
-  @UseGuards(JwtGuard)
   @Get(':id')
   @Render('owned-films')
   async getOwnedFilms(
