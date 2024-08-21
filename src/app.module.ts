@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { FilmModule } from './film/film.module';
-import { SelfModule } from './self/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { BucketModule } from './bucket/bucket.module';
@@ -17,7 +16,6 @@ import { BrowseModule } from './browse/browse.module';
     AuthModule,
     PrismaModule,
     FilmModule,
-    SelfModule,
     UsersModule,
     BucketModule,
     BrowseModule,

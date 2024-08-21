@@ -127,12 +127,6 @@ export class FilmController {
     return this.filmService.removeFilm(id);
   }
 
-  @Get('mine')
-  @Render('my-list')
-  myList() {
-    return { currentPage: 'my-list' };
-  }
-
   @Get('details/:id')
   @Render('film-detail')
   details(@Param('id') id: string) {

@@ -38,10 +38,4 @@ export class BucketController {
 
     return file;
   }
-
-  @Get()
-  @Render('test')
-  root() {
-    return { message: 'Hello world!' };
-  }
 }
