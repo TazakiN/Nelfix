@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { resolve } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as hbs from 'hbs';
 import * as layouts from 'handlebars-layouts';
 import * as express from 'express';
@@ -25,7 +26,15 @@ async function bootstrap() {
 
   app.useStaticAssets(resolve('./public'));
   app.setBaseViewsDir(resolve('./views'));
-  app.setViewEngine('hbs'); //asdksaldj
+  app.setViewEngine('hbs');
+
+  const config = new DocumentBuilder()
+    .setTitle('Nelfix API')
+    .setDescription('The Nelfix API description')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api-docs', app, document);
 
   app.use(express.urlencoded({ extended: true }));
 

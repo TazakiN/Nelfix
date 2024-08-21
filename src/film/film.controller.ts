@@ -18,6 +18,7 @@ import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UserOwnFilmGuard } from './guard';
+import { ApiOperation } from '@nestjs/swagger';
 
 const multerOptions: MulterOptions = {
   limits: { fileSize: 50 * 1024 * 1024 },
@@ -42,6 +43,7 @@ export class FilmController {
 
   @UseGuards(JwtGuard)
   @Post()
+  @ApiOperation({ summary: 'Add new film' })
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -76,6 +78,7 @@ export class FilmController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Find all films with query' })
   findAll(@Query('q') q) {
     try {
       return this.filmService.findByQuery(q);
@@ -89,12 +92,14 @@ export class FilmController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Find film by ID' })
   findOne(@Param('id') id: string) {
     return this.filmService.findByID(id);
   }
 
   @UseGuards(JwtGuard)
   @Put(':id')
+  @ApiOperation({ summary: 'Update film by ID' })
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -123,11 +128,13 @@ export class FilmController {
 
   @UseGuards(JwtGuard)
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete film by ID' })
   remove(@Param('id') id: string) {
     return this.filmService.removeFilm(id);
   }
 
   @Get('details/:id')
+  @ApiOperation({ summary: 'Get film details page' })
   @Render('film-detail')
   details(@Param('id') id: string) {
     return this.filmService.findByID(id);
@@ -135,6 +142,7 @@ export class FilmController {
 
   @UseGuards(UserOwnFilmGuard)
   @Get('watch/:id')
+  @ApiOperation({ summary: 'Get page to watch film by ID' })
   @Render('watch')
   watch(@Param('id') id: string) {
     return this.filmService.findByID(id);
@@ -142,6 +150,7 @@ export class FilmController {
 
   @UseGuards(JwtGuard)
   @Post('buy/:idUser/:idFilm')
+  @ApiOperation({ summary: 'Buy film by idFilm for idUser' })
   buyFilm(@Param('idUser') idUser: string, @Param('idFilm') idFilm: string) {
     return this.filmService.buyFilm(idUser, idFilm);
   }
