@@ -128,6 +128,14 @@ Program ini adalah hasil dari pengerjaan tahap 3 dari Seleksi Asisten LabPro 202
 
 Anda dapat mengakses versi deployed dari program ini di [coming-fernande-seleksilapro-a16662b2.koyeb.app](coming-fernande-seleksilapro-a16662b2.koyeb.app)
 
+### Seed Data
+
+Anda dapat menggunakan aplikasi secara langsung. Namun jika ingin menambahkan beberapa data yang telah dibuat terlebih sebelumnya, anda dapat menggunakan seed data yang telah disediakan dengan menjalankan perintah berikut
+
+```bash
+yarn seed
+```
+
 ## Design Pattern
 
 1. **Singleton Pattern**
@@ -164,7 +172,7 @@ Anda dapat mengakses versi deployed dari program ini di [coming-fernande-seleksi
 
 | Method   | URL                                      | Description                              |
 | -------- | ---------------------------------------- | ---------------------------------------- |
-| `GET`    | `/bucket/cover-images/:key | Mengembalikan cover image dari film dengan key tertentu.|
+| `GET`    | `/bucket/cover-images/:key` | Mengembalikan cover image dari film dengan key tertentu.|
 | `GET`    | `/bucket/videos/:key`                   | Mengembalikan video dari film dengan key tertentu.|
 
 ### Users
