@@ -3,8 +3,8 @@
   {{#content "head" mode="append"}}
     <title>Browse Film | Nelfix</title>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
-    <script src="/js/handleBrowse.js"></script>
-    <script src="/js/viewDetails.js"></script>
+    <script src="/js/handleBrowse.js" defer></script>
+    <script src="/js/viewDetails.js" defer></script>
     <link rel="stylesheet" href="/css/filmCard.css">
   {{/content}}
 
@@ -25,10 +25,12 @@
 
     <hr class="w-full border-gray-200 my-3">
 
-    <div id="results-container" class="grid grid-cols-2 gap-10 w-full px-20 py-3">
-      {{#each films}}
-        {{> filmCard}}
-      {{/each}}
+    <div class="flex flex-col items-center max-w-[1000px]">
+      <div id="results-container" class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 justify-center">
+        {{#each films}}
+          {{> filmCard}}
+        {{/each}}
+      </div>
     </div>
 
     {{> pagination pagination=pagination}}

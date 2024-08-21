@@ -2,7 +2,7 @@
 
   {{#content "head" mode="append"}}
     <title>My List | Nelfix</title>
-    <script src="/js/viewDetails.js"></script>
+    <script src="/js/viewDetails.js" defer></script>
     <link rel="stylesheet" href="/css/filmCard.css">
   {{/content}}
 
@@ -11,7 +11,7 @@
     <h1 class="text-6xl text-orange-400 font-bold mb-8">My List</h1>
 
     {{#if films.length}}
-      <div class="grid grid-cols-2 gap-6 mb-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 max-w[1000px] justify-center">
         {{#each films}}
           {{> filmCard}}
         {{/each}}
