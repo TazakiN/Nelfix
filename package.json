@@ -23,7 +23,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "tailwind:dev": "tailwindcss -i ./public/css/input.css -o ./public/css/output.css --watch"
+    "tailwind:dev": "tailwindcss -i ./public/css/input.css -o ./public/css/output.css --watch",
+    "db:seed": "yarn prisma migrate deploy && yarn seed",
+    "prod": "yarn start:prod"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.624.0",

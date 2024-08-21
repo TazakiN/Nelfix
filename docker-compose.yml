@@ -2,15 +2,15 @@ services:
   db:
     image: postgres:16
     ports:
-      - 5434:5432
+      - "5432:5432"
     env_file:
       - .env
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
-    networks:
-      - mangdiman
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - db_data:/var/lib/postgresql/data
 
   app:
     build:
@@ -20,21 +20,21 @@ services:
       - .:/app
       - /app/node_modules
     ports:
-      - 3000:3000
+      - "3000:3000"
     depends_on:
       - db
     env_file:
       - .env
     environment:
-      - DATABASE_URL
-      - JWT_SECRET
-      - PORT
-      - ACCESS_KEY_ID
-      - SECRET_ACCESS_KEY
-      - ENDPOINT
-      - TOKEN_VALUE
-      - BASE_URL
-    command: sh -c "yarn prisma:dev:deploy && yarn seed && yarn tailwind:dev & yarn start:dev"
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=${PORT}
+      - ACCESS_KEY_ID=${ACCESS_KEY_ID}
+      - SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}
+      - ENDPOINT=${ENDPOINT}
+      - TOKEN_VALUE=${TOKEN_VALUE}
+      - BASE_URL=${BASE_URL}
+      - ADMIN_ID=${ADMIN_ID}
 
-networks:
-  mangdiman:
+volumes:
+  db_data:
