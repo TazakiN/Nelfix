@@ -5,9 +5,8 @@ const prisma = new PrismaClient();
 
 async function main() {
   const hashedPasswordAdmin = await argon.hash('admin123');
-  const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
   const defaultVideoURL =
-    BASE_URL + '/bucket/videos/Cerita masa muda kakek marcow incu bag_ng.mp4';
+    '/bucket/videos/Cerita masa muda kakek marcow incu bag_ng.mp4';
 
   const adminUser = await prisma.user.create({
     data: {
@@ -77,7 +76,7 @@ async function main() {
       price: 40,
       duration: 148,
       video_url: defaultVideoURL,
-      cover_image_url: BASE_URL + '/bucket/cover-images/inception.jpg',
+      cover_image_url: '/bucket/cover-images/inception.jpg',
     },
   });
 
@@ -90,7 +89,7 @@ async function main() {
       price: 30,
       duration: 136,
       video_url: defaultVideoURL,
-      cover_image_url: BASE_URL + '/bucket/cover-images/matrix.jpeg',
+      cover_image_url: '/bucket/cover-images/matrix.jpeg',
     },
   });
 
@@ -103,7 +102,7 @@ async function main() {
       price: 25,
       duration: 175,
       video_url: defaultVideoURL,
-      cover_image_url: BASE_URL + '/bucket/cover-images/the godfather.png',
+      cover_image_url: '/bucket/cover-images/the godfather.png',
     },
   });
 
@@ -116,7 +115,7 @@ async function main() {
       price: 20,
       duration: 113,
       video_url: defaultVideoURL,
-      cover_image_url: BASE_URL + '/bucket/cover-images/superbad.jpg',
+      cover_image_url: '/bucket/cover-images/superbad.jpg',
     },
   });
 
@@ -226,8 +225,7 @@ async function main() {
       price: 35,
       duration: 121,
       video_url: defaultVideoURL,
-      cover_image_url:
-        BASE_URL + '/bucket/cover-images/guardian of the galaxy.png',
+      cover_image_url: '/bucket/cover-images/guardian of the galaxy.png',
     },
   });
 
@@ -241,7 +239,7 @@ async function main() {
       price: 30,
       duration: 139,
       video_url: defaultVideoURL,
-      cover_image_url: BASE_URL + '/bucket/cover-images/fight club.jpg',
+      cover_image_url: '/bucket/cover-images/fight club.jpg',
     },
   });
 
