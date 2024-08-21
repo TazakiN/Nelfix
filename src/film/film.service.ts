@@ -171,23 +171,21 @@ export class FilmService {
     videoFile?: Express.Multer.File,
     coverImage?: Express.Multer.File,
   ) {
-    // Temukan film yang ada
-    const existingFilm = await this.prisma.film.findFirst({
+    const existingFilmData = await this.prisma.film.findFirst({
       where: { id },
       include: { FilmGenre: true },
     });
 
-    if (!existingFilm) {
+    if (!existingFilmData) {
       throw new Error('Film tidak ditemukan');
     }
 
-    // Handle cover image update
     let newCoverImageUrl: string | undefined;
     if (coverImage) {
-      if (existingFilm.cover_image_url) {
+      if (existingFilmData.cover_image_url) {
         await this.bucketService.deleteObject(
           'cover-images',
-          existingFilm.cover_image_url.split('/').pop(),
+          existingFilmData.cover_image_url.split('/').pop(),
         );
       }
       const newCoverImageName = `cover-images/${coverImage.originalname}`;
@@ -201,10 +199,10 @@ export class FilmService {
     // Handle video file update
     let newVideoUrl: string | undefined;
     if (videoFile) {
-      if (existingFilm.video_url) {
+      if (existingFilmData.video_url) {
         await this.bucketService.deleteObject(
           'videos',
-          existingFilm.video_url.split('/').pop(),
+          existingFilmData.video_url.split('/').pop(),
         );
       }
       const newVideoFileName = `videos/${videoFile.originalname}`;
@@ -243,7 +241,7 @@ export class FilmService {
       const newGenres = await Promise.all(
         genreArray.map(async (genreName) => {
           let genre = await prisma.genre.findUnique({
-            where: { name: genreName, id: existingFilm.id },
+            where: { name: genreName, id: existingFilmData.id },
           });
           if (!genre) {
             genre = await prisma.genre.create({ data: { name: genreName } });
