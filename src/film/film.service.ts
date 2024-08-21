@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { BucketService } from 'src/bucket/bucket.service';
 import { ConfigService } from '@nestjs/config';
 import { Prisma } from '@prisma/client';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class FilmService {
@@ -19,8 +20,9 @@ export class FilmService {
     coverImage?: Express.Multer.File,
   ) {
     try {
-      const coverImageName = `cover-images/${coverImage.originalname}`;
-      const videoFileName = `videos/${videoFile.originalname}`;
+      const coverImageName =
+        `cover-images/` + uuidv4() + '-' + coverImage.originalname;
+      const videoFileName = `videos/` + uuidv4() + '-' + videoFile.originalname;
 
       let coverImageUrl = null;
       if (coverImage) {
@@ -39,10 +41,8 @@ export class FilmService {
 
       await this.addFilmToDB(
         data,
-        this.configService.get('BASE_URL') + '/bucket/' + videoUrl,
-        coverImageUrl
-          ? this.configService.get('BASE_URL') + '/bucket/' + coverImageUrl
-          : null,
+        '/bucket/' + videoUrl,
+        coverImageUrl ? '/bucket/' + coverImageUrl : null,
       );
 
       return {
@@ -188,7 +188,8 @@ export class FilmService {
           existingFilmData.cover_image_url.split('/').pop(),
         );
       }
-      const newCoverImageName = `cover-images/${coverImage.originalname}`;
+      const newCoverImageName =
+        `cover-images/` + uuidv4() + '-' + coverImage.originalname;
       newCoverImageUrl = await this.bucketService.putObject(
         newCoverImageName,
         coverImage.buffer,
@@ -196,7 +197,6 @@ export class FilmService {
       );
     }
 
-    // Handle video file update
     let newVideoUrl: string | undefined;
     if (videoFile) {
       if (existingFilmData.video_url) {
@@ -205,7 +205,8 @@ export class FilmService {
           existingFilmData.video_url.split('/').pop(),
         );
       }
-      const newVideoFileName = `videos/${videoFile.originalname}`;
+      const newVideoFileName =
+        `videos/` + uuidv4() + '-' + videoFile.originalname;
       newVideoUrl = await this.bucketService.putObject(
         newVideoFileName,
         videoFile.buffer,
@@ -219,10 +220,7 @@ export class FilmService {
         await prisma.film.update({
           where: { id },
           data: {
-            cover_image_url:
-              this.configService.get('BASE_URL') +
-              '/bucket/' +
-              newCoverImageUrl,
+            cover_image_url: '/bucket/' + newCoverImageUrl,
           },
         });
       }
@@ -231,8 +229,7 @@ export class FilmService {
         await prisma.film.update({
           where: { id },
           data: {
-            video_url:
-              this.configService.get('BASE_URL') + '/bucket/' + newVideoUrl,
+            video_url: '/bucket/' + newVideoUrl,
           },
         });
       }
