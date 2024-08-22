@@ -158,7 +158,6 @@ export class FilmController {
     return this.filmService.findByID(id);
   }
 
-  @UseGuards(UserOwnFilmGuard)
   @Get('watch/:id')
   @ApiOperation({ summary: 'Get page to watch film by ID' })
   @Render('watch')
