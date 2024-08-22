@@ -1,16 +1,26 @@
-import { Controller, Get, Param, Query, Render } from '@nestjs/common';
-import { BrowseSevice } from './browse.service';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  Render,
+  UseInterceptors,
+} from '@nestjs/common';
+import { BrowseService } from './browse.service';
 import { ApiOperation } from '@nestjs/swagger';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
+UseInterceptors(CacheInterceptor);
 @Controller('browse')
+@UseInterceptors(CacheInterceptor)
 export class BrowseController {
-  constructor(private browseService: BrowseSevice) {}
+  constructor(private browseService: BrowseService) {}
 
   @Get()
   @ApiOperation({ summary: 'Get page to Browse films by query' })
   @Render('browse')
   browseFilms(@Query('page') page: number = 1, @Query('q') query: string = '') {
-    return this.browseService.browseFilms((page = 1), query);
+    return this.browseService.browseFilms(page, query);
   }
 
   @Get(':id')

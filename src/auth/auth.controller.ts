@@ -6,11 +6,14 @@ import {
   HttpStatus,
   Post,
   Render,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDTO, SignUpDTO } from './dto';
 import { ApiOperation } from '@nestjs/swagger';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
+@UseInterceptors(CacheInterceptor)
 @Controller()
 export class AuthController {
   constructor(private authService: AuthService) {}

@@ -6,12 +6,18 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { BucketModule } from './bucket/bucket.module';
 import { AppController } from './app.controller';
-import { BrowseSevice } from './browse/browse.service';
+import { BrowseService } from './browse/browse.service';
 import { BrowseModule } from './browse/browse.module';
+import { CacheModule } from '@nestjs/cache-manager';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 60 * 1000,
     }),
     AuthModule,
     PrismaModule,
@@ -21,6 +27,6 @@ import { BrowseModule } from './browse/browse.module';
     BrowseModule,
   ],
   controllers: [AppController],
-  providers: [BrowseSevice],
+  providers: [BrowseService],
 })
 export class AppModule {}

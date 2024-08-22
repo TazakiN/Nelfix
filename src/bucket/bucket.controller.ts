@@ -1,9 +1,11 @@
-import { Controller, Get, Res, Param, Render } from '@nestjs/common';
+import { Controller, Get, Res, Param, UseInterceptors } from '@nestjs/common';
 import { Response } from 'express';
 import { BucketService } from './bucket.service';
 import { StreamableFile } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
+@UseInterceptors(CacheInterceptor)
 @Controller('bucket')
 export class BucketController {
   constructor(private readonly bucketService: BucketService) {}

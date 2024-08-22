@@ -20,6 +20,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UserOwnFilmGuard } from './guard';
 import { ApiOperation } from '@nestjs/swagger';
 import { AdminGuard } from 'src/users/guard';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 const multerOptions: MulterOptions = {
   limits: { fileSize: 50 * 1024 * 1024 },
@@ -38,6 +39,7 @@ const multerOptions: MulterOptions = {
   },
 };
 
+@UseInterceptors(CacheInterceptor)
 @Controller('films')
 export class FilmController {
   constructor(private filmService: FilmService) {}

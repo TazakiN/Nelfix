@@ -9,14 +9,17 @@ import {
   Query,
   Render,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { idUserDTO, incBalanceDTO, UpdateUserDTO } from './dto';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { UserGuard, AdminGuard } from './guard';
 import { ApiOperation } from '@nestjs/swagger';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
-@Controller('users') //
+@UseInterceptors(CacheInterceptor)
+@Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
