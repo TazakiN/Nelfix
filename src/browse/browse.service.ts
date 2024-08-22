@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class BrowseSevice {
+export class BrowseService {
   constructor(private prisma: PrismaService) {}
 
   async browseFilms(page: number, query: string) {
