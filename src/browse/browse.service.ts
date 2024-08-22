@@ -6,7 +6,7 @@ export class BrowseService {
   constructor(private prisma: PrismaService) {}
 
   async browseFilms(page: number, query: string) {
-    const take = 10;
+    const take = 8;
     const skip = (page - 1) * take;
 
     const [films, total] = await Promise.all([
@@ -44,7 +44,7 @@ export class BrowseService {
   }
 
   async getOwnedFilms(id: string, page: number) {
-    const take = 10;
+    const take = 8;
     const skip = (page - 1) * take;
 
     const [films, total] = await Promise.all([
