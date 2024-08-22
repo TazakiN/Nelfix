@@ -23,7 +23,7 @@ import { AdminGuard } from 'src/users/guard';
 import { CACHE_MANAGER, CacheInterceptor, Cache } from '@nestjs/cache-manager';
 
 const multerOptions: MulterOptions = {
-  limits: { fileSize: 50 * 1024 * 1024 },
+  limits: { fileSize: 100 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (
       file.mimetype.startsWith('image/') ||
