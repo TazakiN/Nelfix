@@ -11,7 +11,6 @@ export class FilmService {
   constructor(
     private prisma: PrismaService,
     private bucketService: BucketService,
-    private configService: ConfigService,
   ) {}
 
   async addNewFilm(
