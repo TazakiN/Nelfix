@@ -13,7 +13,7 @@ export class AuthService {
       message: 'Berhasil dapat self',
       data: {
         username: 'admin',
-        email: this.signToken(process.env.ADMIN_ID, process.env.ADMIN_USERNAME),
+        token: this.signToken(process.env.ADMIN_ID, process.env.ADMIN_USERNAME),
       },
     };
   }
