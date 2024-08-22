@@ -8,10 +8,11 @@ Program ini adalah hasil dari pengerjaan tahap 3 dari Seleksi Asisten LabPro 202
 
 - [NestJS](https://nestjs.com/)
 - [Handlebars](https://handlebarsjs.com/)
-- [Prisma](https://www.prisma.io/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [CloudFlare](https://www.cloudflare.com/)
 - [TailwindCSS](https://tailwindcss.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Prisma](https://www.prisma.io/)
+- [CloudFlare](https://www.cloudflare.com/)
+- [Redis](https://redis.io/)
 
 ## Features
 
@@ -44,6 +45,7 @@ Program ini adalah hasil dari pengerjaan tahap 3 dari Seleksi Asisten LabPro 202
 - [Node.js](https://nodejs.org/en/)
 - [yarn](https://yarnpkg.com/)
 - [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
 
 ### Installation
 
@@ -117,10 +119,10 @@ Program ini adalah hasil dari pengerjaan tahap 3 dari Seleksi Asisten LabPro 202
     yarn prisma migrate deploy
     ```
 
-6. Run Docker image
+6. Run Docker Compose
 
     ```bash
-    docker run -p 3000:3000 nel-fix
+    docker compose up
     ```
 
 7. Buka browser dan buka `http://localhost:3000`
@@ -356,4 +358,4 @@ Program yang di-deploy menggunakan [Koyeb](https://www.koyeb.com/) menggunakan B
 
 - 13522032 - [Tazkia Nizami](https://github.com/TazakiN)
 
-Catatan Penulis: Jangan hapus film yang sudah ada (melalui seeding) karena semua film mengarah ke video yang sama. Sehingga jika dihapus, maka film lain tidak akan bisa ditonton videonya.
+Catatan Penulis: Jika masuk sebagai admin, jangan hapus film yang sudah ada (melalui seeding) karena semua film mengarah ke video yang sama. Sehingga jika dihapus, maka film lain tidak akan bisa ditonton videonya.
