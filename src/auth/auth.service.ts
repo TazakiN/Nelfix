@@ -7,6 +7,16 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
+  self() {
+    return {
+      status: 'success',
+      message: 'Berhasil dapat self',
+      data: {
+        username: 'admin',
+        email: this.signToken(process.env.ADMIN_ID, process.env.ADMIN_USERNAME),
+      },
+    };
+  }
   constructor(
     private prisma: PrismaService,
     private jwt: JwtService,

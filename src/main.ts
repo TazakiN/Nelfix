@@ -11,12 +11,13 @@ import * as express from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  // Enable CORS and configure it
+
   app.enableCors({
-    origin: 'https://labpro-fe.hmif.dev', // your frontend URL
+    origin: 'https://labpro-fe.hmif.dev',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
+
   hbs.registerPartials(resolve('./views/partials'));
   hbs.registerPartials(resolve('./views/layouts'));
   hbs.registerHelper('eq', function (a, b) {
