@@ -355,3 +355,5 @@ Program yang di-deploy menggunakan [Koyeb](https://www.koyeb.com/) menggunakan B
 ## Author
 
 - 13522032 - [Tazkia Nizami](https://github.com/TazakiN)
+
+Catatan Penulis: Jangan hapus film yang sudah ada (melalui seeding) karena semua film mengarah ke video yang sama. Sehingga jika dihapus, maka film lain tidak akan bisa ditonton videonya.
