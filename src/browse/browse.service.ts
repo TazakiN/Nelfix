@@ -37,8 +37,8 @@ export class BrowseService {
       films: films,
       pagination: {
         current: page,
-        prev: page > 1 ? page - 1 : null,
-        next: page < totalPages ? page + 1 : null,
+        prev: page > 1 ? Number(page) - 1 : null,
+        next: page < totalPages ? Number(page) + 1 : null,
         pages: Array.from({ length: totalPages }, (_, i) => i + 1),
       },
     };
@@ -67,8 +67,8 @@ export class BrowseService {
       films: films.map((ownFilm) => ownFilm.film),
       pagination: {
         current: page,
-        prev: page > 1 ? page - 1 : null,
-        next: page < totalPages ? page + 1 : null,
+        prev: page > 1 ? Number(page) - 1 : null,
+        next: page < totalPages ? Number(page) + 1 : null,
         pages: Array.from({ length: totalPages }, (_, i) => i + 1),
       },
     };
