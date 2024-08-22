@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('form');
 
   const errorMessage = document.createElement('p');
-  errorMessage.style.color = 'lightcoral';
+  errorMessage.style.color = 'red';
   errorMessage.style.fontSize = '0.875rem';
   errorMessage.style.marginTop = '0.5rem';
   errorMessage.style.display = 'none';

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (username) {
     authSection.innerHTML = `
-        <a onclick="handleAccountDetail()" class="flex items-center space-x-2 text-white cursor-pointer hover:underline" >
+        <a onclick="handleAccountDetail()" class="flex items-center space-x-2 text-white hover:text-blue-500 cursor-pointer hover:underline" >
           <span>${username}</span>
           <img src="/assets/avatar.svg" class="w-8 h-8 rounded-full" alt="Avatar" />
         </a>
@@ -94,10 +94,10 @@ function handleAccountDetail() {
 }
 
 function toMyListPage() {
-  const userId = extractFromToken().sub;
-  if (!userId) {
+  const token = extractFromToken();
+  if (!token) {
     alert('Anda harus login terlebih dahulu.');
     return (window.location.href = '/login');
   }
-  window.location.href = `/browse/${userId}`;
+  window.location.href = `/browse/${token.sub}`;
 }
