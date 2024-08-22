@@ -211,6 +211,10 @@ Database yang digunakan adalah PostgreSQL yang juga di-deploy menggunakan [Koyeb
 
 Program ini menggunakan [TailwindCSS](https://tailwindcss.com/) untuk membuat layout yang responsive. Program ini dapat diakses di berbagai perangkat dengan ukuran layar yang berbeda.
 
+### B07 - Dokumentasi API
+
+Dokumentasi API dari program ini dapat diakses di [coming-fernande-seleksilapro-a16662b2.koyeb.app/api-docs](coming-fernande-seleksilapro-a16662b2.koyeb.app/api-docs) yang dibuat dengan menggunakan [Swagger](https://swagger.io/). Dokumentasi API ini berisi informasi mengenai endpoint-endpoint yang ada pada program ini dan cara penggunaannya. Dokumentasi API ini juga dapat diakses ketika program ini dijalankan secara lokal (seperti `http://localhost:3000/api-docs`)
+
 ### B11 - Ember
 
 Program ini menggunakan Bucket untuk menyimpan cover image dan video dari film-film yang ada. Bucket yang digunakan adalah [R2 CloudFlare](https://developers.cloudflare.com/r2/)

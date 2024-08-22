@@ -37,7 +37,6 @@ function removeToken() {
 function extractFromToken() {
   const token = localStorage.getItem('token');
   if (!token) {
-    console.error('Token not found');
     return null;
   }
 
@@ -56,7 +55,7 @@ function handleAccountDetail() {
   const token = localStorage.getItem('token');
   const userId = extractFromToken().sub;
 
-  if (!userId) {
+  if (!token) {
     return (window.location.href = '/login');
   }
 

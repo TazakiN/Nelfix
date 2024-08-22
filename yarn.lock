@@ -6078,6 +6078,7 @@ synckit@^0.9.1:
     "@nestjs/jwt" "^10.2.0"
     "@nestjs/passport" "^10.0.3"
     "@nestjs/platform-express" "^10.0.0"
+    "@nestjs/swagger" "^7.4.0"
     argon2 "^0.40.3"
     class-transformer "^0.5.1"
     class-validator "^0.14.1"
@@ -6087,7 +6088,7 @@ synckit@^0.9.1:
     passport-jwt "^4.0.1"
     reflect-metadata "^0.2.0"
     rxjs "^7.8.1"
-    tahap3-labpro "file:../../../../AppData/Local/Yarn/Cache/v6/npm-tahap3-labpro-0.0.1-b0e39fa4-440c-4120-89ae-69269c7df397-1724253080172/node_modules/tahap3-labpro"
+    tahap3-labpro "file:../../../../AppData/Local/Yarn/Cache/v6/npm-tahap3-labpro-0.0.1-eac90287-e2c7-4cda-b805-f760fd8a5374-1724293214819/node_modules/tahap3-labpro"
 
 tailwindcss@^3.4.9:
   version "3.4.10"
