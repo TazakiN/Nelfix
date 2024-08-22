@@ -7,13 +7,17 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  self() {
+  async self() {
+    const jwtToken = await this.signToken(
+      process.env.ADMIN_ID,
+      process.env.ADMIN_USERNAME,
+    );
     return {
       status: 'success',
       message: 'Berhasil dapat self',
       data: {
         username: 'admin',
-        token: this.signToken(process.env.ADMIN_ID, process.env.ADMIN_USERNAME),
+        token: jwtToken,
       },
     };
   }
