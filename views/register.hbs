@@ -8,37 +8,37 @@
 
   {{#content "body" }}
     <div class="p-4 py-8 text-center justify-center min-h-screen items-center flex flex-col">
-    <form id="registerForm" action="/register" method="POST" class="max-w-2xl mx-auto bg-gray-900 p-8 rounded-lg shadow-md md:w-96">
-    <h2 class="text-4xl font-semibold mb-6 text-center text-gray-100">Register</h2>
-    
-    <div class="mb-4">
-      <label for="username" class="block text-gray-200 font-semibold mb-2">Username:</label>
-      <input type="text" id="username" name="username" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
-    
-    <div class="mb-4">
-      <label for="email" class="block text-gray-200 font-semibold mb-2">Email:</label>
-      <input type="text" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
-    
-    <div class="mb-4">
-      <label for="password" class="block text-gray-200 font-semibold mb-2">Password:</label>
-      <input type="password" id="password" name="password" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
+    <form id="registerForm" action="/register" method="POST" class="max-w-2xl mx-auto bg-zinc-900 p-8 rounded-lg shadow-md md:w-96">
+      <h2 class="text-4xl font-bold mb-6 text-center text-gray-50">Register</h2>
+      
+      <div class="mb-4">
+        <label for="username" class="block text-gray-200 font-semibold mb-2">Username:</label>
+        <input type="text" id="username" name="username" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+      
+      <div class="mb-4">
+        <label for="email" class="block text-gray-200 font-semibold mb-2">Email:</label>
+        <input type="text" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+      
+      <div class="mb-4">
+        <label for="password" class="block text-gray-200 font-semibold mb-2">Password:</label>
+        <input type="password" id="password" name="password" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
 
-    <div class="mb-4">
-      <label for="confirm-password" class="block text-gray-200 font-semibold mb-2">Confirm Password:</label>
-      <input type="password" id="confirm-password" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
-    
-    <div class="mb-4">
-      <p class="text-gray-300 text-sm">Sudah memiliki akun? <a href="/login" class="text-blue-400">Login di sini</a></p>
-      <p class="text-gray-300 text-sm">Kamu seorang admin? <a href="https://labpro-fe.hmif.dev/" class="text-blue-400">Login di sini</a></p>
-    </div>
+      <div class="mb-4">
+        <label for="confirm-password" class="block text-gray-200 font-semibold mb-2">Confirm Password:</label>
+        <input type="password" id="confirm-password" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+      
+      <div class="mb-4">
+        <p class="text-gray-300 text-sm font-medium">Sudah memiliki akun? <a href="/login" class="text-amber-400 hover:underline hover:text-amber-600 hover:underline-offset-2">Login di sini</a></p>
+        <p class="text-gray-300 text-sm font-medium">Kamu seorang admin? <a href="https://labpro-fe.hmif.dev/" class="text-amber-400 hover:underline hover:text-amber-600 hover:underline-offset-2">Login di sini</a></p>
+      </div>
 
-    <button type="submit" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-      Register
-    </button>
+      <button type="submit" class="w-full bg-amber-600 text-white font-semibold py-2 px-4 rounded hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+        Register
+      </button>
 
     </form>
   </div>
