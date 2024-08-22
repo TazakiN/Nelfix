@@ -24,7 +24,7 @@ async function handleWatch() {
         return currentHTML;
       } else if (response.status === 401) {
         console.log(response);
-        alert('You must log in first.');
+        alert('Anda harus login terlebih dahulu.');
         removeToken();
         return (window.location.href = '/login');
       } else {

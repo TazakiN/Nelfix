@@ -3,25 +3,46 @@
   {{#content "head" mode="append"}}
     <title>Account Details - Nelfix</title>
     <script src="/js/handleAccDetail.js" defer></script>
+    <style>
+      .loading-spinner {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 4px solid #fff;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
+        margin-left: 8px;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
   {{/content}}
 
   {{#content "body" }}
   <div class="container mx-auto py-12 px-4">
     <h1 class="text-4xl font-bold text-orange-400 mb-8 text-center drop-shadow-xl">Account Details</h1>
 
-    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-semibold text-white mb-4">User Information</h2>
-      <p class="text-white mb-2"><strong>Username:</strong> {{data.username}}</p>
-      <p class="text-white mb-2"><strong>Email:</strong> {{data.email}}</p>
-      <p class="text-white mb-2"><strong>Balance:</strong> ${{data.balance}}</p>
-    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold text-white mb-4">User Information</h2>
+        <p class="text-white mb-2"><strong>Username:</strong> <span id="username">{{data.username}}</span></p>
+        <p class="text-white mb-2"><strong>Email:</strong> <span id="email">{{data.email}}</span></p>
+        <p class="text-white mb-2"><strong>Balance:</strong> $<span id="balance">{{data.balance}}</span></p>
+      </div>
 
-    <div class="bg-gray-800 p-6 rounded-lg shadow-lg mt-6">
-      <h2 class="text-2xl font-semibold text-white mb-4">Add Balance</h2>
-      <form id="addBalanceForm" class="space-y-4">
-        <input type="number" id="increment" name="increment" class="w-full p-2 rounded-md" placeholder="Amount to Add">
-        <button type="submit" class="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded-md">Add Balance</button>
-      </form>
+      <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold text-white mb-4">Add Balance</h2>
+        <form id="addBalanceForm" class="space-y-4">
+          <input type="number" id="increment" name="increment" class="w-full p-2 rounded-md" placeholder="Amount to Add" min="1">
+          <button type="submit" class="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded-md flex items-center justify-center">
+            Add Balance
+            <span id="balance-spinner" class="loading-spinner hidden"></span>
+          </button>
+        </form>
+        <p id="balanceMessage" class="text-green-400 mt-2 hidden">Balance updated successfully!</p>
+      </div>
     </div>
 
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg mt-6">
@@ -29,12 +50,19 @@
       <form id="editUserForm" class="space-y-4">
         <input type="text" id="editUsername" name="username" value="{{data.username}}" class="w-full p-2 rounded-md" placeholder="New Username">
         <input type="email" id="editEmail" name="email" value="{{data.email}}" class="w-full p-2 rounded-md" placeholder="New Email">
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md">Save Changes</button>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center">
+          Save Changes
+          <span id="edit-spinner" class="loading-spinner hidden"></span>
+        </button>
       </form>
+      <p id="editMessage" class="text-green-400 mt-2 hidden">User information updated successfully!</p>
     </div>
 
     <div class="mt-6 text-center">
-      <button id="logoutButton" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md">Logout</button>
+      <button id="logoutButton" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md flex items-center justify-center w-full">
+        Logout
+        <span id="logout-spinner" class="loading-spinner hidden"></span>
+      </button>
     </div>
   </div>
   {{/content}}

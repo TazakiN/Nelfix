@@ -76,3 +76,43 @@ document.getElementById('logoutButton').addEventListener('click', function () {
   localStorage.removeItem('token');
   window.location.href = '/login';
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const addBalanceForm = document.getElementById('addBalanceForm');
+  const editUserForm = document.getElementById('editUserForm');
+  const logoutButton = document.getElementById('logoutButton');
+
+  addBalanceForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const spinner = document.getElementById('balance-spinner');
+    const message = document.getElementById('balanceMessage');
+    spinner.classList.remove('hidden');
+    // Simulate API request
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    spinner.classList.add('hidden');
+    message.classList.remove('hidden');
+    setTimeout(() => message.classList.add('hidden'), 3000);
+  });
+
+  editUserForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const spinner = document.getElementById('edit-spinner');
+    const message = document.getElementById('editMessage');
+    spinner.classList.remove('hidden');
+    // Simulate API request
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    spinner.classList.add('hidden');
+    message.classList.remove('hidden');
+    setTimeout(() => message.classList.add('hidden'), 3000);
+  });
+
+  logoutButton.addEventListener('click', async () => {
+    const spinner = document.getElementById('logout-spinner');
+    spinner.classList.remove('hidden');
+    // Simulate API request
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    spinner.classList.add('hidden');
+    // Redirect to logout
+    window.location.href = '/logout';
+  });
+});

@@ -74,7 +74,7 @@ function handleAccountDetail() {
         return (window.location.href = '/login');
       } else if (response.status === 403) {
         alert('You are not authorized to view this page.');
-        return (window.location.href = '/');
+        return (window.location.href = '/forbidden');
       } else {
         alert('There was a problem loading the user details.');
         removeToken();

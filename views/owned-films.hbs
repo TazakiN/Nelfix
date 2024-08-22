@@ -8,10 +8,10 @@
 
   {{#content "body" }}
   <div class="p-4 py-8 min-h-screen flex flex-col items-center">
-    <h1 class="text-6xl text-orange-400 font-bold mb-8">My List</h1>
+    <h1 class="text-6xl text-orange-400 font-bold mb-8 drop-shadow-xl">My List</h1>
 
     {{#if films.length}}
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 max-w[1000px] justify-center">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 max-w-[1000px] justify-center">
         {{#each films}}
           {{> filmCard}}
         {{/each}}
