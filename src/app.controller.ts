@@ -12,4 +12,11 @@ export class AppController {
     // console.log('Rendering home page');
     return { currentPage: 'home', message: 'Hello world!' };
   }
+
+  @Get('/forbidden')
+  @ApiOperation({ summary: 'Get forbidden page' })
+  @Render('forbidden')
+  forbidden() {
+    return { currentPage: 'forbidden' };
+  }
 }
