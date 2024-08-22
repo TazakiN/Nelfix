@@ -204,26 +204,69 @@ yarn seed
 
 ### B02 - Deployment
 
-Program ini telah di-deploy menggunakan [Koyeb](https://www.koyeb.com/). Anda dapat mengakses program ini di [coming-fernande-seleksilapro-a16662b2.koyeb.app](coming-fernande-seleksilapro-a16662b2.koyeb.app)
+Program ini telah di-deploy menggunakan [Koyeb](https://www.koyeb.com/). Anda dapat mengakses program ini di [coming-fernande-seleksilapro-a16662b2.koyeb.app](coming-fernande-seleksilapro-a16662b2.koyeb.app). Berikut adalah gambar dari program ini yang di-deploy di Koyeb.
+
+![Deployed Program](./resources/WebDeplyment.png "Deployed Program")
 
 Database yang digunakan adalah PostgreSQL yang juga di-deploy menggunakan [Koyeb](https://www.koyeb.com/)
+
+![Deployed Database](./resources/DBDeployment.png "Deployed Database")
 
 ### B04 - Caching
 
 Program ini menggunakan caching untuk beberapa endpoint. Program ini menggunakan [Redis](https://redis.io/) sebagai caching. Implementasi Cache dapat terlihat pada setiap class Controller yang menggunakan decorator `@UseInterceptors(CacheInterceptor)`.
 Dapat dilihat pada class `FilmsController` dan `UsersController` yang menggunakan caching untuk beberapa endpoint beserta manipulasi data cache ketika terjadi perubahan data.
 
+Storing data pada cache dilakukan dengan menggunakan key yang unik untuk setiap data yang disimpan. Key yang digunakan adalah `cacheKey` yang merupakan URL dari endpoint yang diakses. Key ini digunakan untuk menyimpan data pada cache dan mengambil data dari cache.
+
+Dengan menggunakan RedisLab, program ini dapat menggunakan Redis sebagai tempat penyimpanan cache. Hal ini memungkinkan program yang dideploy untuk memiliki penyimpanan cache yang lebih cepat dan efisien.
+
+![RedisLab](./resources/RedisLab.png "RedisLab Storage")
+
+### B05 - Lighthouse Score
+
+Lighthouse adalah sebuah tool yang digunakan untuk mengukur performa, aksesibilitas, SEO, dan best practices dari sebuah website. Program ini telah diuji menggunakan Lighthouse dan mendapatkan skor sebagai berikut:
+
+- Login Page
+![Login Page](./resources/lighthouse/login.png "Login Page Score")
+
+- Register Page
+![Register Page](./resources/lighthouse/register.png "Register Page Score")
+
+- Browse Page
+![Browse Page](./resources/lighthouse/browse.png "Browse Page Score")
+
+- Film Details Page
+![Film Details Page](./resources/lighthouse/film-details.png "Film Details Page Score")
+
+- My List Page
+![My List Page](./resources/lighthouse/my-list.png "My List Page Score")
+
+- Account Details Page
+![Account Details Page](./resources/lighthouse/account-details.png "Account Details Page Score")
+
+- Watch Page
+![Watch Page](./resources/lighthouse/watch.png "Watch Page Score")
+
 ### B06 - Responsive Layout
 
-Program ini menggunakan [TailwindCSS](https://tailwindcss.com/) untuk membuat layout yang responsive. Program ini dapat diakses di berbagai perangkat dengan ukuran layar yang berbeda.
+Program ini menggunakan [TailwindCSS](https://tailwindcss.com/) untuk membantu dalam membuat layout yang responsive. Program ini dapat diakses di berbagai perangkat dengan ukuran layar yang berbeda, seperti desktop, tablet, dan mobile.
 
 ### B07 - Dokumentasi API
 
-Dokumentasi API dari program ini dapat diakses di [coming-fernande-seleksilapro-a16662b2.koyeb.app/api-docs](coming-fernande-seleksilapro-a16662b2.koyeb.app/api-docs) yang dibuat dengan menggunakan [Swagger](https://swagger.io/). Dokumentasi API ini berisi informasi mengenai endpoint-endpoint yang ada pada program ini dan cara penggunaannya. Dokumentasi API ini juga dapat diakses ketika program ini dijalankan secara lokal (seperti `http://localhost:3000/api-docs`)
+Dokumentasi API dari program ini dapat diakses di [coming-fernande-seleksilapro-a16662b2.koyeb.app/api-docs](coming-fernande-seleksilapro-a16662b2.koyeb.app/api-docs) yang dibuat dengan menggunakan [Swagger](https://swagger.io/). Dokumentasi API ini berisi informasi mengenai endpoint-endpoint yang ada pada program ini dan cara penggunaannya. Dokumentasi API ini juga dapat diakses ketika program ini dijalankan secara lokal (seperti `http://localhost:3000/api-docs`).
+
+Berikut adalah contoh dokumentasi API yang dapat dilihat pada program ini:
+
+![API Documentation](./resources/API-docs.png "API Documentation")
 
 ### B11 - Ember
 
-Program ini menggunakan Bucket untuk menyimpan cover image dan video dari film-film yang ada. Bucket yang digunakan adalah [R2 CloudFlare](https://developers.cloudflare.com/r2/)
+Program ini menggunakan Bucket untuk menyimpan cover image dan video dari film-film yang ada. Bucket yang digunakan adalah [R2 CloudFlare](https://developers.cloudflare.com/r2/).
+
+Program yang di-deploy menggunakan [Koyeb](https://www.koyeb.com/) menggunakan Bucket dari R2 CloudFlare untuk menyimpan cover image dan video dari film-film yang ada. Berikut adalah gambar dari Bucket yang digunakan:
+
+![R2 CloudFlare](./resources/EmberR2.png "R2 CloudFlare Bucket")
 
 ## Author
 
