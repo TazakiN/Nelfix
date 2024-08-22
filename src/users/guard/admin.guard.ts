@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 
 @Injectable()
-export class UserGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
@@ -19,19 +19,21 @@ export class UserGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
+    const adminID = this.configService.get('ADMIN_ID');
+
     if (!token) {
       throw new UnauthorizedException();
     }
+
     try {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get('JWT_SECRET'),
       });
 
-      const IdUserYangDiakses = request.params.id;
       const IdUserYangLogin = payload.sub;
 
-      if (IdUserYangDiakses !== IdUserYangLogin) {
-        throw new ForbiddenException('Kamu tidak memiliki akses ke user ini');
+      if (adminID !== IdUserYangLogin) {
+        throw new ForbiddenException('Kamu tidak memiliki akses admin');
       }
     } catch (error) {
       if (error instanceof ForbiddenException) {

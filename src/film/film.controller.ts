@@ -19,6 +19,7 @@ import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UserOwnFilmGuard } from './guard';
 import { ApiOperation } from '@nestjs/swagger';
+import { AdminGuard } from 'src/users/guard';
 
 const multerOptions: MulterOptions = {
   limits: { fileSize: 50 * 1024 * 1024 },
@@ -41,7 +42,7 @@ const multerOptions: MulterOptions = {
 export class FilmController {
   constructor(private filmService: FilmService) {}
 
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard, AdminGuard)
   @Post()
   @ApiOperation({ summary: 'Add new film' })
   @UseInterceptors(
@@ -97,7 +98,7 @@ export class FilmController {
     return this.filmService.findByID(id);
   }
 
-  @UseGuards(JwtGuard)
+  @UseGuards(AdminGuard, JwtGuard)
   @Put(':id')
   @ApiOperation({ summary: 'Update film by ID' })
   @UseInterceptors(
@@ -126,7 +127,7 @@ export class FilmController {
     }
   }
 
-  @UseGuards(JwtGuard)
+  @UseGuards(AdminGuard, JwtGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete film by ID' })
   remove(@Param('id') id: string) {
