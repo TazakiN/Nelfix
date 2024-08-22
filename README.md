@@ -67,6 +67,7 @@ Program ini adalah hasil dari pengerjaan tahap 3 dari Seleksi Asisten LabPro 202
     - Untuk PORT, Anda dapat menggunakan 3000 atau port lain yang tidak digunakan. README ini mengasumsikan PORT bernilai 3000.
     - Untuk BASE_URL, Anda dapat menggunakan `http://localhost:3000` atau URL lain yang ingin Anda gunakan
     - Untuk JWT_SECRET dan ADMIN_ID, Anda dapat menggunakan string random yang diinginkan
+    - Untuk REDIS_URL, Anda dapat menggunakan URL Redis yang ingin Anda gunakan. Jika ingin menggunakan Docker, atur `docker-compose.yml` untuk menggunakan Redis.
 
 4. Hasilkan Prisma Client dengan menjalankan perintah berikut dari file `schema.prisma` dengan menjalankan perintah berikut
 
@@ -206,6 +207,11 @@ yarn seed
 Program ini telah di-deploy menggunakan [Koyeb](https://www.koyeb.com/). Anda dapat mengakses program ini di [coming-fernande-seleksilapro-a16662b2.koyeb.app](coming-fernande-seleksilapro-a16662b2.koyeb.app)
 
 Database yang digunakan adalah PostgreSQL yang juga di-deploy menggunakan [Koyeb](https://www.koyeb.com/)
+
+### B04 - Caching
+
+Program ini menggunakan caching untuk beberapa endpoint. Program ini menggunakan [Redis](https://redis.io/) sebagai caching. Implementasi Cache dapat terlihat pada setiap class Controller yang menggunakan decorator `@UseInterceptors(CacheInterceptor)`.
+Dapat dilihat pada class `FilmsController` dan `UsersController` yang menggunakan caching untuk beberapa endpoint beserta manipulasi data cache ketika terjadi perubahan data.
 
 ### B06 - Responsive Layout
 
