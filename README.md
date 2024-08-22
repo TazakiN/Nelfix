@@ -289,19 +289,66 @@ Program ini menggunakan SOLID Principle untuk membangun program yang lebih baik 
     ```
 
 - **Liskov Substitution Principle (LSP)**
-    Program ini menggunakan class yang dapat digunakan sebagai pengganti class induknya. Contoh implementasi LSP pada program ini adalah class `FilmService` yang dapat digunakan sebagai pengganti class `PrismaService` yang merupakan class induknya.
+    Program ini menggunakan class yang dapat digunakan sebagai pengganti class induknya. Contoh implementasi LSP pada program ini adalah class `FilmService` yang dapat digunakan sebagai pengganti class `BucketService` yang merupakan class induknya dan memiliki metode untuk menyimpan cover image dan video dari film-film yang ada ke Bucket.
+
+    Hal ini memungkinkan class `FilmService` untuk digunakan sebagai pengganti class `BucketService` tanpa mengubah struktur dari class `BucketService`. Implementasi LSP pada program ini adalah sebagai berikut:
+
+    ```typescript
+    export class FilmService extends BucketService {
+    constructor(private prismaService: PrismaService) {
+        super();
+    }}
+    ```
 
 - **Interface Segregation Principle (ISP)**
-    Program ini menggunakan interface yang memiliki tanggung jawab yang spesifik dan hanya memiliki method yang diperlukan. Contoh implementasi ISP pada program ini adalah interface `Film` yang memiliki method yang diperlukan untuk class `FilmService`.
+    Interface Segregation Principle (ISP) menyatakan bahwa sebuah class tidak boleh dipaksa untuk mengimplementasikan interface yang tidak digunakannya. Dalam penerapan ISP, kita memecah interface yang besar dan umum menjadi beberapa interface yang lebih kecil dan spesifik sesuai dengan kebutuhan masing-masing client (class). Pada program ini, ISP diterapkan dengan membagi tanggung jawab ke dalam service yang berbeda, di mana masing-masing service hanya bergantung pada interface yang relevan dengan fungsinya.
+
+    Contoh implementasi ISP pada program ini adalah penggunaan FilmService yang berinteraksi dengan PrismaService untuk mengakses data dari database dan BucketService untuk menyimpan cover image dan video film. Setiap service ini mengimplementasikan interface yang spesifik dan hanya memaparkan method yang benar-benar diperlukan oleh FilmService. Dengan cara ini, FilmService tidak tergantung pada method yang tidak relevan, sehingga meminimalkan ketergantungan yang tidak diperlukan dan memudahkan pengujian serta pemeliharaan kode.
+
+    Berikut adalah contoh implementasi ISP pada program ini:
+
+    ```typescript
+    export class FilmService {
+    constructor(private prismaService: PrismaService, private bucketService: BucketService) {}
+
+        async createFilm(createFilmDTO: CreateFilmDTO) {
+            const { title, description, price, coverImage, video } = createFilmDTO;
+
+            this.bucketService.putObject('cover-images', coverImage);
+            
+            const film = await this.prismaService.film.create({
+            data: {
+                title,
+                description,
+                price,
+                coverImage,
+                video,
+            },
+            });
+            return film;
+        }
+    }
+    ```
 
 - **Dependency Inversion Principle (DIP)**
-    Program ini menggunakan dependency injection untuk mengurangi ketergantungan antar class. Contoh implementasi DIP pada program ini adalah class `FilmService` dan `UsersService` yang menggunakan dependency injection untuk mengakses Prisma Client yang terdapat pada class `PrismaService`.
+    Program ini menggunakan dependency injection untuk mengurangi ketergantungan antar class. Sebagian besar class pada program ini menggunakan dependency injection untuk mengakses class lain yang dibutuhkan. Hal ini memungkinkan program ini untuk lebih mudah di-maintain dan diuji.
+
+    Contoh implementasi DIP pada program ini adalah class `FilmService` dan `UsersService` yang menggunakan dependency injection untuk mengakses Prisma Client yang terdapat pada class `PrismaService`.
+
+    Berikut adalah contoh implementasi DIP pada program ini:
+
+    ```typescript
+    export class FilmService {
+        constructor(private prismaService: PrismaService) {} // Dependency Injection
+    }
 
 ### B11 - Ember
 
-Program ini menggunakan Bucket untuk menyimpan cover image dan video dari film-film yang ada. Bucket yang digunakan adalah [R2 CloudFlare](https://developers.cloudflare.com/r2/).
+Program ini menggunakan Bucket untuk menyimpan cover image dan video dari film-film yang ada. Hal ini akan memudahkan dalam menyimpan dan mengakses cover image dan video dari film-film yang ada. Penyimpanan cover image dan video pada Bucket ini memungkinkan program ini untuk menyimpan data yang lebih banyak dan memudahkan dalam mengakses data tersebut.
 
-Program yang di-deploy menggunakan [Koyeb](https://www.koyeb.com/) menggunakan Bucket dari R2 CloudFlare untuk menyimpan cover image dan video dari film-film yang ada. Berikut adalah gambar dari Bucket yang digunakan:
+Terdapat beberapa pilihan Bucket yang dapat digunakan untuk menyimpan cover image dan video dari film-film yang ada, seperti [R2 CloudFlare](https://developers.cloudflare.com/r2/), [AWS S3](https://aws.amazon.com/s3/), [Google Cloud Storage](https://cloud.google.com/storage), dan [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/).
+
+Program yang di-deploy menggunakan [Koyeb](https://www.koyeb.com/) menggunakan Bucket dari [R2 CloudFlare](https://developers.cloudflare.com/r2/) untuk menyimpan cover image dan video dari film-film yang ada. Berikut adalah gambar dari Bucket yang digunakan:
 
 ![R2 CloudFlare](./resources/EmberR2.png "R2 CloudFlare Bucket")
 
