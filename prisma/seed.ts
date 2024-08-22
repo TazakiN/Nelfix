@@ -178,7 +178,7 @@ async function main() {
       price: 30,
       duration: 154,
       video_url: defaultVideoURL,
-      cover_image_url: '/bucket/cover-images/pulp fiction.jpg',
+      cover_image_url: '/bucket/cover-images/pulp fiction.jpeg',
     },
   });
 
@@ -192,7 +192,7 @@ async function main() {
       price: 40,
       duration: 169,
       video_url: defaultVideoURL,
-      cover_image_url: '/bucket/cover-images/interstellar.jpg',
+      cover_image_url: '/bucket/cover-images/interstellar.jpeg',
     },
   });
 
@@ -275,7 +275,7 @@ async function main() {
       price: 30,
       duration: 132,
       video_url: defaultVideoURL,
-      cover_image_url: '/bucket/cover-images/parasite.jpg',
+      cover_image_url: '/bucket/cover-images/parasite.jpeg',
     },
   });
 
