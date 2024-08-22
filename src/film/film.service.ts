@@ -7,11 +7,10 @@ import { Prisma } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
-export class FilmService {
-  constructor(
-    private prisma: PrismaService,
-    private bucketService: BucketService,
-  ) {}
+export class FilmService extends BucketService {
+  constructor(private prisma: PrismaService) {
+    super(new ConfigService());
+  }
 
   async addNewFilm(
     data: FilmDTO,
@@ -25,14 +24,14 @@ export class FilmService {
 
       let coverImageUrl = null;
       if (coverImage) {
-        coverImageUrl = await this.bucketService.putObject(
+        coverImageUrl = await this.putObject(
           coverImageName,
           coverImage.buffer,
           coverImage.mimetype,
         );
       }
 
-      const videoUrl = await this.bucketService.putObject(
+      const videoUrl = await this.putObject(
         videoFileName,
         videoFile.buffer,
         videoFile.mimetype,
@@ -182,14 +181,14 @@ export class FilmService {
     let newCoverImageUrl: string | undefined;
     if (coverImage) {
       if (existingFilmData.cover_image_url) {
-        await this.bucketService.deleteObject(
+        await this.deleteObject(
           'cover-images',
           existingFilmData.cover_image_url.split('/').pop(),
         );
       }
       const newCoverImageName =
         `cover-images/` + uuidv4() + '-' + coverImage.originalname;
-      newCoverImageUrl = await this.bucketService.putObject(
+      newCoverImageUrl = await this.putObject(
         newCoverImageName,
         coverImage.buffer,
         coverImage.mimetype,
@@ -199,14 +198,14 @@ export class FilmService {
     let newVideoUrl: string | undefined;
     if (videoFile) {
       if (existingFilmData.video_url) {
-        await this.bucketService.deleteObject(
+        await this.deleteObject(
           'videos',
           existingFilmData.video_url.split('/').pop(),
         );
       }
       const newVideoFileName =
         `videos/` + uuidv4() + '-' + videoFile.originalname;
-      newVideoUrl = await this.bucketService.putObject(
+      newVideoUrl = await this.putObject(
         newVideoFileName,
         videoFile.buffer,
         videoFile.mimetype,
@@ -299,10 +298,10 @@ export class FilmService {
       const videoUrl = film.video_url;
 
       if (imageUrl) {
-        await this.bucketService.deleteObject('cover-images', imageUrl);
+        await this.deleteObject('cover-images', imageUrl);
       }
 
-      await this.bucketService.deleteObject('videos', videoUrl);
+      await this.deleteObject('videos', videoUrl);
 
       await this.prisma.film.delete({ where: { id } });
 
