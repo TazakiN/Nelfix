@@ -21,6 +21,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiOperation } from '@nestjs/swagger';
 import { AdminGuard } from 'src/users/guard';
 import { CACHE_MANAGER, CacheInterceptor, Cache } from '@nestjs/cache-manager';
+import { UserOwnFilmGuard } from './guards';
 
 const multerOptions: MulterOptions = {
   limits: { fileSize: 100 * 1024 * 1024 },
@@ -157,6 +158,7 @@ export class FilmController {
     return this.filmService.findByID(id);
   }
 
+  @UseGuards(UserOwnFilmGuard)
   @Get('watch/:id')
   @ApiOperation({ summary: 'Get page to watch film by ID' })
   @Render('watch')

@@ -33,6 +33,7 @@ export class BrowseService {
     const totalPages = Math.ceil(Number(total) / take);
 
     return {
+      currentPage: 'browse',
       films: films,
       pagination: {
         current: page,
