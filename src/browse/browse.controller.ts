@@ -19,7 +19,7 @@ export class BrowseController {
   @Get()
   @ApiOperation({ summary: 'Get page to Browse films by query' })
   @Render('browse')
-  browseFilms(@Query('page') page: number = 1, @Query('q') query: string = '') {
+  browseFilms(@Query('page') page: number, @Query('q') query: string = '') {
     return this.browseService.browseFilms(page, query);
   }
 

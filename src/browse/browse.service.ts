@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class BrowseService {
   constructor(private prisma: PrismaService) {}
 
-  async browseFilms(page: number, query: string) {
+  async browseFilms(page: number = 1, query: string = '') {
     const take = 8;
     const skip = (page - 1) * take;
 
@@ -44,7 +44,7 @@ export class BrowseService {
     };
   }
 
-  async getOwnedFilms(id: string, page: number) {
+  async getOwnedFilms(id: string, page: number = 1) {
     const take = 8;
     const skip = (page - 1) * take;
 
