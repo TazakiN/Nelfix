@@ -18,7 +18,6 @@ import { FilmDTO } from './dto';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { UserOwnFilmGuard } from './guard';
 import { ApiOperation } from '@nestjs/swagger';
 import { AdminGuard } from 'src/users/guard';
 import { CACHE_MANAGER, CacheInterceptor, Cache } from '@nestjs/cache-manager';
