@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Patch, //
   Post,
@@ -16,12 +17,15 @@ import { idUserDTO, incBalanceDTO, UpdateUserDTO } from './dto';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { UserGuard, AdminGuard } from './guard';
 import { ApiOperation } from '@nestjs/swagger';
-import { CacheInterceptor } from '@nestjs/cache-manager';
+import { CACHE_MANAGER, CacheInterceptor, Cache } from '@nestjs/cache-manager';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   @UseGuards(JwtGuard)
   @Get(':id')
@@ -34,6 +38,7 @@ export class UsersController {
   @Post(':id/balance')
   @ApiOperation({ summary: 'Add balance to user' })
   addBalance(@Body() incDTO: incBalanceDTO, @Param() idUserDTO: idUserDTO) {
+    this.cacheManager.del('/users/' + idUserDTO.id + '/detail');
     return this.usersService.addBalance(idUserDTO.id, incDTO.increment);
   }
 
@@ -58,6 +63,7 @@ export class UsersController {
     @Param() idUserDTO: idUserDTO,
     @Body() updateUserDTO: UpdateUserDTO,
   ) {
+    this.cacheManager.del('/users/' + idUserDTO.id + '/detail');
     return this.usersService.updateUser(idUserDTO.id, updateUserDTO);
   }
 

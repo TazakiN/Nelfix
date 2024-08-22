@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Post,
   Put,
@@ -20,7 +21,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UserOwnFilmGuard } from './guard';
 import { ApiOperation } from '@nestjs/swagger';
 import { AdminGuard } from 'src/users/guard';
-import { CacheInterceptor } from '@nestjs/cache-manager';
+import { CACHE_MANAGER, CacheInterceptor, Cache } from '@nestjs/cache-manager';
 
 const multerOptions: MulterOptions = {
   limits: { fileSize: 50 * 1024 * 1024 },
@@ -42,7 +43,10 @@ const multerOptions: MulterOptions = {
 @UseInterceptors(CacheInterceptor)
 @Controller('films')
 export class FilmController {
-  constructor(private filmService: FilmService) {}
+  constructor(
+    private filmService: FilmService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   @UseGuards(JwtGuard, AdminGuard)
   @Post()
@@ -73,6 +77,7 @@ export class FilmController {
       }
 
       const result = await this.filmService.addNewFilm(dto, video, coverImage);
+      this.cacheManager.del('/browse'); // gabisa wildcard
       return result;
     } catch (error) {
       console.error('Error uploading files:', error.message);
@@ -122,6 +127,7 @@ export class FilmController {
       const coverImage = files?.cover_image?.[0] || null;
       const videoFile = files?.video?.[0] || null;
 
+      this.removeCache(id);
       return this.filmService.update(id, dto, videoFile, coverImage);
     } catch (error) {
       console.error('Error updating film:', error.message);
@@ -133,7 +139,16 @@ export class FilmController {
   @Delete(':id')
   @ApiOperation({ summary: 'Delete film by ID' })
   remove(@Param('id') id: string) {
+    this.removeCache(id);
     return this.filmService.removeFilm(id);
+  }
+
+  @UseGuards(JwtGuard)
+  @Post('buy/:idUser/:idFilm')
+  @ApiOperation({ summary: 'Buy film by idFilm for idUser' })
+  buyFilm(@Param('idUser') idUser: string, @Param('idFilm') idFilm: string) {
+    this.cacheManager.del('/browse/' + idUser); // gabisa wildcard
+    return this.filmService.buyFilm(idUser, idFilm);
   }
 
   @Get('details/:id')
@@ -151,10 +166,8 @@ export class FilmController {
     return this.filmService.findByID(id);
   }
 
-  @UseGuards(JwtGuard)
-  @Post('buy/:idUser/:idFilm')
-  @ApiOperation({ summary: 'Buy film by idFilm for idUser' })
-  buyFilm(@Param('idUser') idUser: string, @Param('idFilm') idFilm: string) {
-    return this.filmService.buyFilm(idUser, idFilm);
+  removeCache(id: string) {
+    this.cacheManager.del('/films/details/' + id);
+    this.cacheManager.del('/films/watch/' + id);
   }
 }

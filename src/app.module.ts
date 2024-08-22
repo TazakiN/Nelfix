@@ -9,20 +9,21 @@ import { AppController } from './app.controller';
 import { BrowseService } from './browse/browse.service';
 import { BrowseModule } from './browse/browse.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    CacheModule.register({
+    CacheModule.registerAsync({
       isGlobal: true,
-      ttl: 60 * 1000,
-      host: process.env.REDIS_HOST,
-      port: process.env.REDIS_PORT,
-      username: process.env.REDIS_USERNAME,
-      password: process.env.REDIS_PASSWORD,
-      no_ready_check: true,
+      useFactory: async () => ({
+        store: await redisStore({
+          url: process.env.REDIS_URL,
+          ttl: 30 * 1000,
+        }),
+      }),
     }),
     AuthModule,
     PrismaModule,

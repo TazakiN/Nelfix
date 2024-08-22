@@ -9,6 +9,7 @@ export class AppController {
   @ApiOperation({ summary: 'Get home page' })
   @Render('index')
   root() {
+    // console.log('Rendering home page');
     return { currentPage: 'home', message: 'Hello world!' };
   }
 }
