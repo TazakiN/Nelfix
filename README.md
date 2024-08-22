@@ -140,15 +140,12 @@ yarn seed
 ## Design Pattern
 
 1. **Singleton Pattern**
+    Singleton Pattern digunakan untuk membuat instance dari class yang hanya bisa dibuat satu kali selama class tersebut hidup. Singleton Pattern digunakan pada class `PrismaService` untuk membuat instance dari Prisma Client yang hanya bisa dibuat satu kali dan hanya bertanggung jawab untuk segala operasi yang berkaitan dengan Prisma Client.
 
-    Singleton Pattern digunakan untuk membuat instance dari class yang hanya bisa dibuat satu kali. Singleton Pattern digunakan pada class `PrismaService` untuk membuat instance dari Prisma Client yang hanya bisa dibuat satu kali dan hanya bertanggung jawab untuk segala operasi yang berkaitan dengan Prisma Client.
-
-2. **Repository Pattern**
-
-    Repository Pattern digunakan untuk memisahkan logika bisnis dari logika akses data. Repository Pattern digunakan pada class `FilmService` untuk mengakses data dari database dan melakukan operasi CRUD pada tabel `film`.
+2. **Strategy Pattern**
+    Strategy Pattern digunakan untuk membuat class yang memiliki method yang sama namun memiliki implementasi yang berbeda. Strategy Pattern digunakan pada class `Admin.Guard` dan `User.Guard` untuk membuat class yang memiliki method `canActivate` yang sama namun memiliki implementasi yang berbeda untuk validasi token JWT.
 
 3. **Decorator Pattern**
-
     Decorator Pattern digunakan untuk menambahkan fitur tambahan pada class atau method tanpa mengubah struktur dari class atau method tersebut. Decorator Pattern digunakan pada class `Jwt.Guard` untuk menambahkan fitur validasi token JWT pada method yang menggunakan decorator `@UseGuards(JwtGuard)`.
 
 ## Endpoints
@@ -259,6 +256,46 @@ Dokumentasi API dari program ini dapat diakses di [coming-fernande-seleksilapro-
 Berikut adalah contoh dokumentasi API yang dapat dilihat pada program ini:
 
 ![API Documentation](./resources/API-docs.png "API Documentation")
+
+### B08 - SOLID Principle
+
+Program ini menggunakan SOLID Principle untuk membangun program yang lebih baik dan mudah untuk di-maintain. Berikut adalah contoh implementasi SOLID Principle pada program ini:
+
+- **Single Responsibility Principle (SRP)**
+
+    Setiap class pada program ini memiliki tanggung jawab yang spesifik dan hanya melakukan satu hal. Contoh implementasi SRP pada program ini adalah class `FilmService` yang bertanggung jawab untuk mengakses data dari database dan melakukan operasi CRUD pada tabel `film` dan class `UsersService` yang bertanggung jawab untuk mengakses data dari database dan melakukan operasi CRUD pada tabel `users`.
+
+- **Open/Closed Principle (OCP)**
+    Program ini menggunakan decorator untuk menambahkan fitur tambahan pada class atau method tanpa mengubah struktur dari class atau method tersebut. Contoh implementasi OCP pada program ini adalah class `Jwt.Guard` yang menggunakan decorator `@UseGuards(JwtGuard)` untuk menambahkan fitur validasi token JWT pada method yang menggunakan decorator tersebut.
+
+    Contoh implementasi OCP pada program ini adalah sebagai berikut:
+
+    ```typescript
+
+  @UseGuards(JwtGuard)
+  @Get(':id')
+  @ApiOperation({ summary: 'Get user by ID' })
+  getUser(@Param() idUserDTO: idUserDTO) {
+    return this.usersService.getUser(idUserDTO.id);
+  }
+
+  @UseGuards(JwtGuard)
+  @Post(':id/balance')
+  @ApiOperation({ summary: 'Add balance to user' })
+  addBalance(@Body() incDTO: incBalanceDTO, @Param() idUserDTO: idUserDTO) {
+    this.cacheManager.del('/users/' + idUserDTO.id + '/detail');
+    return this.usersService.addBalance(idUserDTO.id, incDTO.increment);
+  }
+    ```
+
+- **Liskov Substitution Principle (LSP)**
+    Program ini menggunakan class yang dapat digunakan sebagai pengganti class induknya. Contoh implementasi LSP pada program ini adalah class `FilmService` yang dapat digunakan sebagai pengganti class `PrismaService` yang merupakan class induknya.
+
+- **Interface Segregation Principle (ISP)**
+    Program ini menggunakan interface yang memiliki tanggung jawab yang spesifik dan hanya memiliki method yang diperlukan. Contoh implementasi ISP pada program ini adalah interface `Film` yang memiliki method yang diperlukan untuk class `FilmService`.
+
+- **Dependency Inversion Principle (DIP)**
+    Program ini menggunakan dependency injection untuk mengurangi ketergantungan antar class. Contoh implementasi DIP pada program ini adalah class `FilmService` dan `UsersService` yang menggunakan dependency injection untuk mengakses Prisma Client yang terdapat pada class `PrismaService`.
 
 ### B11 - Ember
 
